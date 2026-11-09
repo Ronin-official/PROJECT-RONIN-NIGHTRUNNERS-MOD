@@ -48,16 +48,22 @@ namespace Ronin.AutoAWD
             return false;
         }
 
-        static bool HasDriftParts(CarData data)
+        static readonly System.Collections.Generic.HashSet<string> _probed = new System.Collections.Generic.HashSet<string>();
+
+        static bool HasDriftParts(CarData data, string carName)
         {
+            if (data == null) return false;
+
             int diff = -1, knuckle = -1;
-            try { diff = data.CurrentHandlingPartLevel(CarPart.PartType.han_differential); } catch { }
-            try { knuckle = data.CurrentHandlingPartLevel(CarPart.PartType.han_steeringKnuckle); } catch { }
+            try { diff = data.DifferentialLevel; } catch { }
+            try { knuckle = data.SteeringKnuckleLevel; } catch { }
 
-            if (_probeLogs++ < 12) LogMsg("probe: diff=" + diff + " knuckle=" + knuckle);
+            if (_probed.Count < 60 && _probed.Add(carName + "|" + diff + "|" + knuckle))
+                LogMsg("probe " + carName + ": DifferentialLevel=" + diff + " SteeringKnuckleLevel=" + knuckle);
 
-            if (diff >= 4) return true;     // 焊接差速器 (prototype)
-            if (knuckle >= 2) return true;  // DIY 加长转向节 (street+)
+            // 焊接差速器 / DIY 加长转向节（等级值按游戏数据，>=2 视为改装）
+            if (diff >= 3) return true;   // 3 = 焊接差速器（prototype）
+            if (knuckle >= 2) return true;
             return false;
         }
 
@@ -77,7 +83,7 @@ namespace Ronin.AutoAWD
                     var rcc = data.rcc;
                     if (rcc == null) return;
 
-                    bool drift = SkipDriftCars.Value && HasDriftParts(data);
+                    bool drift = SkipDriftCars.Value && HasDriftParts(data, __instance.gameObject != null ? __instance.gameObject.name : "?");
 
                     var wantData = drift ? CarData.Drivetrain.RWD : CarData.Drivetrain.AWD;
                     var wantWheel = drift ? RCC_CarControllerV3.WheelType.RWD : RCC_CarControllerV3.WheelType.AWD;
