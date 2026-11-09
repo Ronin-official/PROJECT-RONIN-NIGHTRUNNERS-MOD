@@ -33,6 +33,17 @@ dotnet build plugins/auto-awd/Ronin.NRAutoAWD328.csproj -c Release
   see them (both players need Neon Flow to see each other's gradients).
 - No game files, models, textures or music are included in this repository.
 
+## Known issues
+
+Music plugin:
+
+- Inside the 24/7 garage the custom track keeps playing (it should be silent) and it is
+  louder than expected.
+- In the PA the custom music overlaps with the game music instead of replacing it.
+
+Both are known and currently not planned to be fixed. Everything else in the pack works
+as described.
+
 ## License
 
 MIT — see [LICENSE](LICENSE).
