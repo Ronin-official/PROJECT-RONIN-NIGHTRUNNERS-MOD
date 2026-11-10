@@ -12,6 +12,7 @@ Tested with NRMP `0.1.4b2` and the REDUX patcher `1.0.1`.
 | Engine Heat Skip | `plugins/engine-heat` | F4 pins water/oil temperature |
 | Real Names | `plugins/real-names` | real car names in UI, USS sheet and NRMP's F7 menu |
 | Auto AWD | `plugins/auto-awd` | player car → AWD, drift-part cars stay RWD |
+| UV Export | `plugins/uv-export` | F11 exports the player car's UV layout to a 2048² PNG (black = paint, blue = glass) for making liveries |
 
 Download the compiled DLLs from the [Releases](../../releases) page.
 Install: drop the DLLs into `BepInEx/plugins/`.
